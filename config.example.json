@@ -1,0 +1,16 @@
+{
+  "nodes": [
+    {
+      "host": "xxx.a1.typesense.net",
+      "port": 443,
+      "protocol": "https"
+    }
+  ],
+  "nearestNode": {
+    "host": "xxx.a1.typesense.net",
+    "port": 443,
+    "protocol": "https"
+  },
+  "apiKey": "your-search-only-api-key",
+  "connectionTimeoutSeconds": 10
+}
