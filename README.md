@@ -120,9 +120,9 @@ npm run inspect
 
 The MCP auto-discovers `typesense.json` in the current working directory, making it perfect for debugging different Typesense clusters.
 
-### Global Setup
+### Setup
 
-Add to your Claude Code settings (`~/.claude/settings.json`):
+Create `.mcp.json` in your project root (or copy from this repo):
 
 ```json
 {
@@ -137,30 +137,30 @@ Add to your Claude Code settings (`~/.claude/settings.json`):
 
 ### Usage
 
-1. Navigate to any project directory
+1. Copy `.mcp.json` to your project (or symlink it)
 2. Create a `typesense.json` with your cluster credentials
-3. Start Claude Code - it will automatically use the local config
+3. Start Claude Code - it will detect the MCP and prompt to enable it
 
 ```bash
 cd /path/to/your/project
+
+# Copy MCP config
+cp /home/alanm/dev/readonly-typesense-mcp/.mcp.json .
+
 # Create typesense.json with your cluster credentials
+cat > typesense.json << 'EOF'
+{
+  "nodes": [{"host": "xxx.a1.typesense.net", "port": 443, "protocol": "https"}],
+  "apiKey": "your-admin-api-key",
+  "connectionTimeoutSeconds": 10
+}
+EOF
+
+# Start Claude Code
 claude
 ```
 
-### Per-Project Setup (Alternative)
-
-Create `.mcp.json` in your project root:
-
-```json
-{
-  "mcpServers": {
-    "typesense": {
-      "command": "node",
-      "args": ["/home/alanm/dev/readonly-typesense-mcp/build/index.js"]
-    }
-  }
-}
-```
+Claude Code will detect the `.mcp.json` and ask to enable the Typesense MCP server.
 
 ## Claude Desktop Integration
 
