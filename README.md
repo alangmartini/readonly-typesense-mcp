@@ -12,7 +12,7 @@ A Model Context Protocol (MCP) server providing read-only access to Typesense Cl
 - 🏷️ **Aliases**: Manage collection aliases
 - 📊 **Analytics**: Access analytics rules
 - ⚕️ **Cluster Info**: Health checks, metrics, and statistics
-- 🔒 **Read-Only**: Safe for production use with search-only API keys
+- 🔒 **Read-Only**: All operations are read-only (no write/delete operations)
 
 ## Installation
 
@@ -39,7 +39,7 @@ Create `config/typesense.json`:
     "port": 443,
     "protocol": "https"
   },
-  "apiKey": "your-search-only-api-key",
+  "apiKey": "your-admin-api-key",
   "connectionTimeoutSeconds": 10
 }
 ```
@@ -48,6 +48,16 @@ Create `config/typesense.json`:
 
 - `TYPESENSE_CONFIG_PATH`: Path to config file (default: `config/typesense.json`)
 - `TYPESENSE_API_KEY`: Override API key from config file
+
+### API Key Requirements
+
+While this server only implements read-only operations, it requires an **admin API key** to access certain endpoints like listing collections, overrides, synonyms, etc. Search-only API keys have limited permissions and cannot access collection metadata.
+
+The server is safe to use with admin keys because:
+- No write operations are implemented
+- No delete operations are implemented
+- All operations are strictly read-only
+- Perfect for production monitoring and search integration
 
 ## Available Tools (18)
 

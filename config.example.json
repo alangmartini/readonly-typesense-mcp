@@ -11,6 +11,6 @@
     "port": 443,
     "protocol": "https"
   },
-  "apiKey": "your-search-only-api-key",
+  "apiKey": "your-admin-api-key",
   "connectionTimeoutSeconds": 10
 }
