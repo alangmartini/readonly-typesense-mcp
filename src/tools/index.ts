@@ -6,6 +6,7 @@ import { synonymTools, listSynonyms, getSynonym } from './synonyms.js';
 import { aliasTools, listAliases, getAlias } from './aliases.js';
 import { analyticsTools, listAnalyticsRules, getAnalyticsRule } from './analytics.js';
 import { clusterTools, getHealth, getMetrics, getStats, getDebug } from './cluster.js';
+import { reviewTools, reviewCollection } from './review.js';
 
 /**
  * All available tool definitions
@@ -18,6 +19,7 @@ export const allTools = [
   ...aliasTools,
   ...analyticsTools,
   ...clusterTools,
+  ...reviewTools,
 ];
 
 /**
@@ -74,6 +76,10 @@ export async function handleToolCall(client: Client, name: string, args: unknown
       return getStats(client);
     case 'typesense_debug':
       return getDebug(client);
+
+    // Review
+    case 'typesense_review_collection':
+      return reviewCollection(client, args);
 
     default:
       throw new Error(`Unknown tool: ${name}`);
