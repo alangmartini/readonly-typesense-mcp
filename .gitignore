@@ -6,7 +6,9 @@ build/
 dist/
 
 # Configuration (contains sensitive data)
+typesense.json
 config/typesense.json
+.mcp.json
 
 # Environment variables
 .env
@@ -29,5 +31,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Credentials
+# Credentials and secrets
 *api-keys*.txt
+*secret*
+*credential*
+*.pem
+*.key
+
+# Claude Code local settings
+.claude/

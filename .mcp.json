@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "typesense": {
-      "command": "node",
-      "args": ["/home/alanm/dev/readonly-typesense-mcp/build/index.js"]
-    }
-  }
-}
