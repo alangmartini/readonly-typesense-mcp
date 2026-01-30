@@ -44,8 +44,9 @@ function findConfigPath(): string {
 
 /**
  * Load and validate Typesense configuration from file or environment variables
+ * Returns both the config and the path it was loaded from
  */
-export function loadConfig(): TypesenseConfig {
+export function loadConfig(): { config: TypesenseConfig; configPath: string } {
   const configPath = findConfigPath();
 
   let configData: unknown;
@@ -69,7 +70,8 @@ export function loadConfig(): TypesenseConfig {
 
   // Validate configuration
   try {
-    return TypesenseConfigSchema.parse(configData);
+    const config = TypesenseConfigSchema.parse(configData);
+    return { config, configPath };
   } catch (error) {
     throw new Error(`Invalid Typesense configuration: ${error}`);
   }

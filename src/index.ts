@@ -13,13 +13,17 @@ import { loadConfig } from './config/index.js';
 import { createTypesenseClient } from './client/typesense.js';
 import { allTools, handleToolCall } from './tools/index.js';
 import { listResources, handleResourceRead } from './resources/index.js';
+import { setConfigInfo } from './tools/config.js';
 
 /**
  * Main server initialization
  */
 async function main() {
   // Load configuration
-  const config = loadConfig();
+  const { config, configPath } = loadConfig();
+
+  // Store config info for diagnostic tool
+  setConfigInfo(config, configPath);
 
   // Create Typesense client
   const client = createTypesenseClient(config);
