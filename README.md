@@ -69,7 +69,7 @@ The server is safe to use with admin keys because:
 - All operations are strictly read-only
 - Perfect for production monitoring and search integration
 
-## Available Tools (18)
+## Available Tools (20)
 
 ### Collections
 - `typesense_list_collections` - List all collections with schemas
@@ -96,6 +96,10 @@ The server is safe to use with admin keys because:
 ### Analytics
 - `typesense_list_analytics_rules` - List analytics rules
 - `typesense_get_analytics_rule` - Get specific rule
+
+### NL Search Models
+- `typesense_list_nl_models` - List all NL search models (credentials redacted)
+- `typesense_get_nl_model` - Get specific NL model by ID (credentials redacted)
 
 ### Cluster
 - `typesense_health` - Node health status

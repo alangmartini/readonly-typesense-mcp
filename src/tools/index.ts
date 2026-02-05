@@ -5,6 +5,7 @@ import { curationTools, listOverrides, getOverride } from './curations.js';
 import { synonymTools, listSynonyms, getSynonym } from './synonyms.js';
 import { aliasTools, listAliases, getAlias } from './aliases.js';
 import { analyticsTools, listAnalyticsRules, getAnalyticsRule } from './analytics.js';
+import { nlModelTools, listNLModels, getNLModel } from './nlmodels.js';
 import { clusterTools, getHealth, getMetrics, getStats, getDebug } from './cluster.js';
 import { reviewTools, reviewCollection } from './review.js';
 import { configTools, getConfigInfo } from './config.js';
@@ -19,6 +20,7 @@ export const allTools = [
   ...synonymTools,
   ...aliasTools,
   ...analyticsTools,
+  ...nlModelTools,
   ...clusterTools,
   ...reviewTools,
   ...configTools,
@@ -68,6 +70,12 @@ export async function handleToolCall(client: Client, name: string, args: unknown
       return listAnalyticsRules(client);
     case 'typesense_get_analytics_rule':
       return getAnalyticsRule(client, args);
+
+    // NL Search Models
+    case 'typesense_list_nl_models':
+      return listNLModels(client);
+    case 'typesense_get_nl_model':
+      return getNLModel(client, args);
 
     // Cluster
     case 'typesense_health':
