@@ -23,7 +23,17 @@ npm run build
 
 ## Configuration
 
-Create `config/typesense.json`:
+The server looks for configuration in this order:
+1. `TYPESENSE_CONFIG_PATH` environment variable
+2. `typesense.json` in the current working directory
+3. `config/typesense.json` in the current working directory
+4. Bundled `config/typesense.json` (relative to the module)
+
+This allows you to simply drop a `typesense.json` file in any project directory and the MCP will use it automatically.
+
+### Config File Format
+
+Create `typesense.json`:
 
 ```json
 {
@@ -46,7 +56,7 @@ Create `config/typesense.json`:
 
 ### Environment Variables
 
-- `TYPESENSE_CONFIG_PATH`: Path to config file (default: `config/typesense.json`)
+- `TYPESENSE_CONFIG_PATH`: Explicit path to config file (overrides auto-discovery)
 - `TYPESENSE_API_KEY`: Override API key from config file
 
 ### API Key Requirements
@@ -59,7 +69,7 @@ The server is safe to use with admin keys because:
 - All operations are strictly read-only
 - Perfect for production monitoring and search integration
 
-## Available Tools (18)
+## Available Tools (20)
 
 ### Collections
 - `typesense_list_collections` - List all collections with schemas
@@ -87,6 +97,10 @@ The server is safe to use with admin keys because:
 - `typesense_list_analytics_rules` - List analytics rules
 - `typesense_get_analytics_rule` - Get specific rule
 
+### NL Search Models
+- `typesense_list_nl_models` - List all NL search models (credentials redacted)
+- `typesense_get_nl_model` - Get specific NL model by ID (credentials redacted)
+
 ### Cluster
 - `typesense_health` - Node health status
 - `typesense_metrics` - RAM/CPU/disk metrics
@@ -106,19 +120,62 @@ Test with the MCP Inspector:
 npm run inspect
 ```
 
-## Claude Desktop Integration
+## Claude Code Integration
 
-Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+The MCP auto-discovers `typesense.json` in the current working directory, making it perfect for debugging different Typesense clusters.
+
+### Setup
+
+Create `.mcp.json` in your project root (or copy from this repo):
 
 ```json
 {
   "mcpServers": {
     "typesense": {
       "command": "node",
-      "args": ["/path/to/readonly-typesense-mcp/build/index.js"],
-      "env": {
-        "TYPESENSE_CONFIG_PATH": "/path/to/config/typesense.json"
-      }
+      "args": ["/home/alanm/dev/readonly-typesense-mcp/build/index.js"]
+    }
+  }
+}
+```
+
+### Usage
+
+1. Copy `.mcp.json` to your project (or symlink it)
+2. Create a `typesense.json` with your cluster credentials
+3. Start Claude Code - it will detect the MCP and prompt to enable it
+
+```bash
+cd /path/to/your/project
+
+# Copy MCP config
+cp /home/alanm/dev/readonly-typesense-mcp/.mcp.json .
+
+# Create typesense.json with your cluster credentials
+cat > typesense.json << 'EOF'
+{
+  "nodes": [{"host": "xxx.a1.typesense.net", "port": 443, "protocol": "https"}],
+  "apiKey": "your-admin-api-key",
+  "connectionTimeoutSeconds": 10
+}
+EOF
+
+# Start Claude Code
+claude
+```
+
+Claude Code will detect the `.mcp.json` and ask to enable the Typesense MCP server.
+
+## Claude Desktop Integration
+
+Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS or `~/.config/Claude/claude_desktop_config.json` on Linux):
+
+```json
+{
+  "mcpServers": {
+    "typesense": {
+      "command": "node",
+      "args": ["/home/alanm/dev/readonly-typesense-mcp/build/index.js"]
     }
   }
 }
